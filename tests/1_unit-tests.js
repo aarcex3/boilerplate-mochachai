@@ -33,24 +33,35 @@ suite('Unit Tests', function () {
   suite('Equality', function () {
     // #5
     test('#equal, #notEqual', function () {
-      assert.equal(12, '12', 'Numbers are coerced into strings with ==');
-      assert.equal({ value: 1 }, { value: 1 }, '== compares object references');
-      assert.equal(6 * '2', '12');
-      assert.notEqual(6 + '2', '12');
+      assert.equal(12, '12', 'Numbers are coerced into strings with =='); // This is valid
+      assert.notEqual({ value: 1 }, { value: 1 }, 'Different object references are not ==');
+      assert.equal(6 * '2', '12', 'Numeric coercion works with multiplication');
+      assert.notEqual(6 + '2', '12', 'String concatenation results in "62"');
     });
+
     // #6
     test('#strictEqual, #notStrictEqual', function () {
-      assert.strictEqual(6, '6');
-      assert.strictEqual(6, 3 * 2);
-      assert.strictEqual(6 * '2', 12);
-      assert.strictEqual([1, 'a', {}], [1, 'a', {}]);
+      assert.notStrictEqual(6, '6', 'Different types are not ==='); // Changed to `notStrictEqual`
+      assert.strictEqual(6, 3 * 2, '6 is strictly equal to 3 * 2');
+      assert.strictEqual(6 * '2', 12, 'Numeric coercion works with strict comparison');
+      assert.notStrictEqual([1, 'a', {}], [1, 'a', {}], 'Different array instances are not ===');
     });
+
     // #7
     test('#deepEqual, #notDeepEqual', function () {
-      assert.deepEqual({ a: '1', b: 5 }, { b: 5, a: '1' }, "The order of keys doesn't matter");
-      assert.notDeepEqual({ a: [5, 6] }, { a: [6, 5] }, 'The order of array elements does matter');
+      assert.deepEqual(
+        { a: '1', b: 5 },
+        { b: 5, a: '1' },
+        "The order of keys doesn't matter in deep equality"
+      );
+      assert.notDeepEqual(
+        { a: [5, 6] },
+        { a: [6, 5] },
+        'The order of array elements does matter in deep equality'
+      );
     });
   });
+
 
   // -----------------------------------------------------------------------------
 
